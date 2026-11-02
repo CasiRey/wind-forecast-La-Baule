@@ -1,0 +1,10 @@
+# Environnement Python local (recréé avec uv, voir README)
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+
+# Consignes pour Claude Code : fichier personnel, pas destiné au repo public
+CLAUDE.md
+
+# Données brutes téléchargées : volumineuses et re-téléchargeables par les scripts
+data/raw/
