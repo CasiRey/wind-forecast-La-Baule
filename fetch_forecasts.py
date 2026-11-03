@@ -48,15 +48,22 @@ def fetch_one(lat, lon, model, start, end):
         "wind_speed_unit": "kn",   # nœuds, comme sur Windguru
         "timezone": "UTC",         # on reste en UTC, la balise sera convertie aussi
     }
-    # Le serveur gratuit est parfois surchargé (erreur 503) ou limite le débit (429) :
-    # on réessaie en attendant de plus en plus longtemps (10 s, 20 s, 40 s...).
+    # Le serveur gratuit est parfois surchargé (erreur 503), limite le débit (429)
+    # ou ne répond pas à temps : on réessaie en attendant de plus en plus longtemps
+    # (10 s, 20 s, 40 s...).
     for attempt in range(6):
-        r = requests.get(URL, params=params, timeout=60)
-        if r.status_code not in (429, 500, 502, 503, 504):
-            break
+        try:
+            r = requests.get(URL, params=params, timeout=120)
+            if r.status_code not in (429, 500, 502, 503, 504):
+                break
+            problem = f"erreur {r.status_code}"
+        except (requests.Timeout, requests.ConnectionError):
+            problem = "pas de réponse"
         wait = 10 * 2**attempt
-        print(f"    serveur indisponible ({r.status_code}), nouvel essai dans {wait} s")
+        print(f"    serveur indisponible ({problem}), nouvel essai dans {wait} s")
         time.sleep(wait)
+    else:  # les 6 essais ont échoué
+        raise RuntimeError(f"Open-Meteo indisponible ({problem}) pour {model} {start} -> {end}")
     r.raise_for_status()
     hourly = r.json()["hourly"]
     df = pd.DataFrame(hourly)
