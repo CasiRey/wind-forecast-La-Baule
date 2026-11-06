@@ -44,7 +44,7 @@ def read_raw(path):
     """Lit les colonnes utiles par position (le ";" final crée une colonne vide en trop)."""
     df = pd.read_csv(path, sep=";", usecols=[1, 3, 5, 6], header=0,
                      names=["timestamp", "speed", "speed_max", "direction"])
-    df["time"] = pd.to_datetime(df["timestamp"], unit="s", utc=True).dt.tz_localize(None)
+    df["time"] = pd.to_datetime(df["timestamp"], unit="s", utc=True)
     return df.drop(columns="timestamp").sort_values("time").reset_index(drop=True)
 
 
@@ -92,7 +92,7 @@ def main():
     print(f"Relevés lus : {len(df)} ({df['time'].min()} à {df['time'].max()})")
 
     if args.start:
-        df = df[df["time"] >= pd.Timestamp(args.start)]
+        df = df[df["time"] >= pd.Timestamp(args.start, tz="UTC")]
         print(f"Depuis {args.start} : {len(df)}")
 
     n = len(df)
@@ -105,7 +105,7 @@ def main():
 
     n = len(df)
     for start, end in KNOWN_OUTAGES:
-        df = df[~((df["time"] >= pd.Timestamp(start)) & (df["time"] < pd.Timestamp(end)))]
+        df = df[~((df["time"] >= pd.Timestamp(start, tz="UTC")) & (df["time"] < pd.Timestamp(end, tz="UTC")))]
     print(f"Pannes connues retirées : {n - len(df)} relevés")
 
     n = len(df)
