@@ -31,6 +31,7 @@ DEFAULT_INPUT = Path("data/raw/observations/Station7 - 2008-1-1 - 2026-11-6 23_5
 DEFAULT_OUTPUT = Path("data/raw/observations/windsup.csv")
 
 MAX_SPEED = 60          # nœuds : au-delà, valeur jugée aberrante
+MIN_OBS_PER_HOUR = 10   # au-delà, l'heure est jugée fiable (relevé ~2 min le jour)
 MAX_ZERO_RUN = pd.Timedelta(hours=3)  # série de 0 plus longue = panne
 
 # Pannes repérées à la main (UTC, début inclus, fin exclue) : la règle des 0 ne suffit pas
@@ -73,12 +74,15 @@ def to_hourly(df):
         wind_gusts=("speed_max", "max"),
         u=("u", "mean"),
         v=("v", "mean"),
+        n_obs=("speed", "size"),
     )
     # Direction : moyenne circulaire (sinon la moyenne de 350° et 10° donnerait 180°)
     hourly["wind_direction"] = np.rad2deg(np.arctan2(hourly["u"], hourly["v"])) % 360
     hourly = hourly.drop(columns=["u", "v"]).round(1)
+    # Heure fiable : assez de relevés pour une vraie moyenne (la nuit, 1 relevé toutes les ~2 h)
+    hourly["reliable"] = hourly["n_obs"] > MIN_OBS_PER_HOUR
     return hourly.rename_axis("time").reset_index()[
-        ["time", "wind_speed", "wind_direction", "wind_speed_max", "wind_gusts"]]
+        ["time", "wind_speed", "wind_direction", "wind_speed_max", "wind_gusts", "n_obs", "reliable"]]
 
 
 def main():
