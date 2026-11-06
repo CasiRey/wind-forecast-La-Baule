@@ -1,0 +1,4 @@
+,succès,manqués,fausses alertes,rejets corrects,POD,FAR
+gfs,6990,1305,2757,31179,0.843,0.283
+arome,4714,1351,1262,22005,0.777,0.211
+ecmwf,1786,1872,246,16066,0.488,0.121

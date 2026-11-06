@@ -19,6 +19,7 @@ ferait l'inverse. L'union des deux ne favorise aucun sens d'erreur.
 Usage (depuis la racine du projet) :  python src/metrics.py [--location la_baule] [--common]
 """
 import argparse
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -26,6 +27,7 @@ import pandas as pd
 from build_dataset import DIR_MAX, DIR_MIN, NAVIGABLE_SPEED, STRONG_WIND_SPEED
 
 MODELS = ["gfs", "arome", "ecmwf"]
+RESULTS_DIR = Path("results")
 
 # En dessous de ce vent (mesuré ou prévu), la direction est trop instable pour être comparée
 MIN_DIR_SPEED = 5
@@ -154,4 +156,12 @@ if __name__ == "__main__":
 
     print("\nÉvénement « heure navigable » (prévu vs observé) :")
     cont = contingency_table(df)
-    print(cont.astype({c: int for c in cont.columns[:4]}).round(2).to_string())
+    cont = cont.astype({c: int for c in cont.columns[:4]})
+    print(cont.round(2).to_string())
+
+    # Sauvegarde des tableaux (le suffixe distingue les heures communes aux 3 modèles)
+    suffix = f"{args.location}_heures_communes" if args.common else args.location
+    RESULTS_DIR.mkdir(exist_ok=True)
+    table.round(3).to_csv(RESULTS_DIR / f"metriques_erreur_{suffix}.csv")
+    cont.round(3).to_csv(RESULTS_DIR / f"contingence_navigable_{suffix}.csv")
+    print(f"\nTableaux enregistrés dans {RESULTS_DIR}/ (suffixe {suffix})")

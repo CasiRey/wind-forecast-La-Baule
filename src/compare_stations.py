@@ -8,9 +8,12 @@ biais de vitesse La Baule - Chémoulin et corrélation entre les deux vitesses.
 Usage (depuis la racine du projet) :
     python src/compare_stations.py
 """
+from pathlib import Path
+
 import pandas as pd
 
 SECTORS = ["N", "NE", "E", "SE", "S", "SO", "O", "NO"]
+RESULTS_DIR = Path("results")
 
 
 def load_common_hours():
@@ -52,3 +55,8 @@ if __name__ == "__main__":
     table["heures"] = table["heures"].astype(int)
     print("Vitesses en nœuds, biais = La Baule - Chémoulin, secteur = direction à Chémoulin")
     print(table.round(2).to_string())
+
+    out = RESULTS_DIR / "ecart_la_baule_chemoulin_par_secteur.csv"
+    RESULTS_DIR.mkdir(exist_ok=True)
+    table.round(3).to_csv(out)
+    print(f"\n-> {out}")
