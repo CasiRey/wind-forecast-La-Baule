@@ -8,3 +8,6 @@ CLAUDE.md
 
 # Données brutes téléchargées : volumineuses et re-téléchargeables par les scripts
 data/raw/
+
+# Fichiers de configuration de Visual Studio (propres à ma machine)
+.vs/
