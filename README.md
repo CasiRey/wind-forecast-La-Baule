@@ -67,7 +67,8 @@ Tout est en **UTC** et toutes les vitesses sont en **nœuds**.
 ### Jeu final (`src/build_dataset.py`)
 
 Une ligne par heure observée, avec les prévisions des 3 modèles alignées sur la même heure UTC.
-On y ajoute les indicateurs `navigable` et `strong_wind` (≥ 25 nœuds), calculés sur le vent mesuré.
+Les sous-ensembles « navigable » et « vents forts » ne sont pas stockés dans ce fichier : ils dépendent
+à la fois de la mesure et de la prévision évaluée (mesuré OU prévu), et sont donc calculés au moment de l'analyse.
 Fichiers : `data/processed/dataset_chemoulin.csv` et `data/processed/dataset_la_baule.csv`.
 
 ## Méthode
