@@ -37,6 +37,11 @@ NAVIGABLE_SPEED = 12
 STRONG_WIND_SPEED = 25   # vents forts, analysés à part
 
 
+def is_navigable(speed, direction):
+    """Vent >= 12 nœuds dans le secteur SE à ONO (135° à 292,5°)."""
+    return (speed >= NAVIGABLE_SPEED) & direction.between(DIR_MIN, DIR_MAX)
+
+
 def load_observations(obs_file):
     """Relevés de la station, renommés avec le suffixe _obs."""
     df = pd.read_csv(obs_file, parse_dates=["time"])
@@ -59,16 +64,15 @@ def load_forecast(location, short_name, file_name):
 
 
 def build(location, obs_file):
-    """Fusionne relevés et prévisions, et ajoute les indicateurs navigable / vent fort."""
-    # 1. Les relevés servent de référence : on part d'eux et on y accroche les prévisions
+    """Fusionne relevés et prévisions.
+
+    Pas de colonne « navigable » ici : le sous-ensemble dépend de la mesure ET de la prévision
+    évaluée, il est donc calculé au moment de l'analyse avec is_navigable (metrics.py, notebook).
+    """
+    # Les relevés servent de référence : on part d'eux et on y accroche les prévisions
     df = load_observations(obs_file)
     for short_name, file_name in MODELS.items():
         df = df.merge(load_forecast(location, short_name, file_name), on="time", how="left")
-
-    # 2. Indicateurs calculés sur le vent MESURÉ (ce qui s'est vraiment passé sur l'eau)
-    good_sector = df["dir_obs"].between(DIR_MIN, DIR_MAX)
-    df["navigable"] = good_sector & (df["speed_obs"] >= NAVIGABLE_SPEED)
-    df["strong_wind"] = df["speed_obs"] >= STRONG_WIND_SPEED
     return df
 
 
@@ -89,4 +93,5 @@ if __name__ == "__main__":
 
     print(f"-> {out} : {len(df)} lignes (observations : {obs_file})")
     print(f"Période : {df['time'].min()} -> {df['time'].max()}")
-    print(f"Heures navigables : {df['navigable'].mean():.1%}")
+    print(f"Heures navigables selon la mesure seule : "
+          f"{is_navigable(df['speed_obs'], df['dir_obs']).mean():.1%}")

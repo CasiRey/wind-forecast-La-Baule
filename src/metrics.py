@@ -24,7 +24,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from build_dataset import DIR_MAX, DIR_MIN, NAVIGABLE_SPEED, STRONG_WIND_SPEED
+from build_dataset import STRONG_WIND_SPEED, is_navigable  # is_navigable réexporté pour le notebook
 
 MODELS = ["gfs", "arome", "ecmwf"]
 RESULTS_DIR = Path("results")
@@ -36,11 +36,6 @@ MIN_DIR_SPEED = 5
 def circular_diff(forecast_deg, observed_deg):
     """Écart de direction ramené entre -180° et 180° (350° vs 10° -> -20°, pas 340°)."""
     return (forecast_deg - observed_deg + 180) % 360 - 180
-
-
-def is_navigable(speed, direction):
-    """Vent >= 12 nœuds dans le secteur SE à ONO (135° à 292,5°)."""
-    return (speed >= NAVIGABLE_SPEED) & direction.between(DIR_MIN, DIR_MAX)
 
 
 def model_metrics(df, model):
