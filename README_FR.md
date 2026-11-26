@@ -3,6 +3,8 @@
 Évaluation des prévisions de vent passées de **GFS**, **AROME** et **ECMWF** face aux relevés
 réels sur la baie de La Baule, puis correction de ces prévisions par apprentissage automatique.
 
+*[English version](README.md)*
+
 ## Objectif
 
 Quand on prépare une session de voile, on compare plusieurs modèles (Windguru, Windy...)
@@ -209,12 +211,35 @@ Secteur selon la direction mesurée à Chémoulin.
 
 ## Correction par ML
 
-À compléter.
+Notebook : [`notebooks/correction_ml.ipynb`](notebooks/correction_ml.ipynb) (station de Chémoulin, AROME et GFS).
 
-Méthode prévue : un gradient boosting qui prédit le vent observé à partir des prévisions
-(vitesse, direction, rafales des 3 modèles, heure, mois), comparé à une base simple de correction de biais.
-Le découpage sera **temporel** : apprentissage sur les périodes anciennes, test sur les plus récentes,
-sans jamais de mélange aléatoire, qui laisserait le modèle « voir le futur ».
+**Méthode**
+- Le modèle apprend l'**erreur** de la prévision (prévision − mesure) ; le vent corrigé vaut prévision − erreur prédite.
+  On corrige trois prévisions : AROME, GFS et la moyenne des deux.
+- Features, uniquement des valeurs prévues : vent moyen et rafales des deux modèles, min/max du vent prévu
+  de t−3 h à t+3 h, direction (sinus/cosinus), heure et mois (codés en cycle).
+- Modèle : `HistGradientBoostingRegressor` (scikit-learn), réglages simples et identiques pour les trois prévisions.
+- Bases de comparaison : prévision **brute** et correction du **biais moyen** (appris sur les années d'entraînement).
+- Découpage **temporel** : années de novembre à octobre. Validation croisée « leave-one-year-out » sur 2023, 2024 et 2025
+  (jamais de mélange aléatoire, qui ferait fuiter des heures quasi identiques du même jour).
+  L'année nov. 2025 – oct. 2026 est gardée de côté comme **test final**, évalué une seule fois.
+
+**Résultats en validation croisée** (moyenne des 3 années, [`results/cv_correction_vent_chemoulin.csv`](results/cv_correction_vent_chemoulin.csv),
+détail par année dans `cv_correction_vent_chemoulin_par_annee.csv`) :
+
+| Heures | Prévision | MAE brut (kn) | MAE biais moyen (kn) | MAE gradient boosting (kn) |
+|---|---|---|---|---|
+| navigables | AROME | 4,41 | 3,87 | **2,18** |
+| navigables | GFS | 4,10 | 4,41 | **2,18** |
+| toutes | AROME | 2,99 | 3,02 | **1,67** |
+| toutes | GFS | 3,52 | 3,51 | **1,67** |
+
+- Le gradient boosting divise la MAE par environ 2 et ramène le biais des heures navigables de −3 à −4 kn à environ −0,2 kn.
+- La simple correction du biais moyen n'aide presque pas (elle dégrade même GFS en navigable) : l'erreur dépend de la situation
+  (direction, force, heure), pas d'un décalage constant.
+- Les trois variantes donnent le même score : elles reçoivent les mêmes features (les deux modèles), donc le gradient boosting
+  reconstruit le même vent quelle que soit la prévision de départ.
+- Test final sur nov. 2025 – oct. 2026 : à faire.
 
 ## Limites
 
