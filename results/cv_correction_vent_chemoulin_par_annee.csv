@@ -3,38 +3,56 @@ année validée,prévision,méthode,sous-ensemble,heures,biais (kn),MAE (kn),RMS
 2023,arome,brut,navigables,2910,-4.175,4.632,5.576
 2023,arome,biais moyen,toutes,8459,-0.026,3.159,4.007
 2023,arome,biais moyen,navigables,2910,-3.429,4.073,5.042
+2023,arome,régression linéaire,toutes,8459,0.067,2.878,3.679
+2023,arome,régression linéaire,navigables,2910,-1.976,3.288,4.167
 2023,gfs,brut,toutes,8459,0.573,3.656,4.551
 2023,gfs,brut,navigables,2910,-2.997,4.168,5.113
 2023,gfs,biais moyen,toutes,8459,0.106,3.624,4.516
 2023,gfs,biais moyen,navigables,2910,-3.463,4.458,5.4
+2023,gfs,régression linéaire,toutes,8459,0.156,3.55,4.422
+2023,gfs,régression linéaire,navigables,2910,-2.883,4.154,5.041
 2023,moy,brut,toutes,8459,-0.1,3.279,4.106
 2023,moy,brut,navigables,2910,-3.586,4.27,5.143
 2023,moy,biais moyen,toutes,8459,0.04,3.285,4.105
 2023,moy,biais moyen,navigables,2910,-3.446,4.173,5.047
+2023,moy,régression linéaire,toutes,8459,0.142,3.035,3.8
+2023,moy,régression linéaire,navigables,2910,-2.097,3.42,4.158
 2024,arome,brut,toutes,8664,-1.403,2.986,3.899
 2024,arome,brut,navigables,3260,-4.14,4.497,5.375
 2024,arome,biais moyen,toutes,8664,-0.975,2.893,3.766
 2024,arome,biais moyen,navigables,3260,-3.712,4.156,5.053
+2024,arome,régression linéaire,toutes,8664,-0.994,2.654,3.425
+2024,arome,régression linéaire,navigables,3260,-2.467,3.419,4.236
 2024,gfs,brut,toutes,8664,-0.044,3.404,4.349
 2024,gfs,brut,navigables,3260,-2.913,4.03,4.998
 2024,gfs,biais moyen,toutes,8664,-0.819,3.457,4.426
 2024,gfs,biais moyen,navigables,3260,-3.689,4.504,5.487
+2024,gfs,régression linéaire,toutes,8664,-0.81,3.413,4.345
+2024,gfs,régression linéaire,navigables,3260,-3.117,4.22,5.134
 2024,moy,brut,toutes,8664,-0.723,3.018,3.881
 2024,moy,brut,navigables,3260,-3.527,4.077,4.966
 2024,moy,biais moyen,toutes,8664,-0.897,3.043,3.918
 2024,moy,biais moyen,navigables,3260,-3.701,4.204,5.091
+2024,moy,régression linéaire,toutes,8664,-0.897,2.855,3.616
+2024,moy,régression linéaire,navigables,3260,-2.518,3.523,4.261
 2025,arome,brut,toutes,8750,-0.095,2.818,3.56
 2025,arome,brut,navigables,2301,-3.541,4.101,4.898
 2025,arome,biais moyen,toutes,8750,0.996,3.003,3.695
 2025,arome,biais moyen,navigables,2301,-2.45,3.385,4.177
+2025,arome,régression linéaire,toutes,8750,0.913,2.801,3.56
+2025,arome,régression linéaire,navigables,2301,-0.947,2.973,3.792
 2025,gfs,brut,toutes,8750,0.972,3.492,4.353
 2025,gfs,brut,navigables,2301,-2.79,4.111,4.94
 2025,gfs,biais moyen,toutes,8750,0.711,3.438,4.303
 2025,gfs,biais moyen,navigables,2301,-3.05,4.253,5.092
+2025,gfs,régression linéaire,toutes,8750,0.618,3.434,4.336
+2025,gfs,régression linéaire,navigables,2301,-2.29,4.091,4.878
 2025,moy,brut,toutes,8750,0.438,3.018,3.767
 2025,moy,brut,navigables,2301,-3.165,3.95,4.714
 2025,moy,biais moyen,toutes,8750,0.854,3.103,3.837
 2025,moy,biais moyen,navigables,2301,-2.75,3.697,4.446
+2025,moy,régression linéaire,toutes,8750,0.732,2.968,3.751
+2025,moy,régression linéaire,navigables,2301,-1.359,3.314,4.001
 2023,arome,gradient boosting,toutes,8459,0.361,1.729,2.389
 2023,arome,gradient boosting,navigables,2910,0.08,2.246,3.085
 2023,gfs,gradient boosting,toutes,8459,0.283,1.707,2.37

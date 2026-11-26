@@ -2,18 +2,24 @@ sous-ensemble,prévision,méthode,biais (kn),MAE (kn),RMSE (kn)
 navigables,arome,biais moyen,-3.2,3.87,4.76
 navigables,arome,brut,-3.95,4.41,5.28
 navigables,arome,gradient boosting,-0.15,2.18,2.94
+navigables,arome,régression linéaire,-1.8,3.23,4.06
 navigables,gfs,biais moyen,-3.4,4.41,5.33
 navigables,gfs,brut,-2.9,4.1,5.02
 navigables,gfs,gradient boosting,-0.19,2.18,2.94
+navigables,gfs,régression linéaire,-2.76,4.15,5.02
 navigables,moy,biais moyen,-3.3,4.02,4.86
 navigables,moy,brut,-3.43,4.1,4.94
 navigables,moy,gradient boosting,-0.18,2.18,2.94
+navigables,moy,régression linéaire,-1.99,3.42,4.14
 toutes,arome,biais moyen,-0.0,3.02,3.82
 toutes,arome,brut,-0.76,2.99,3.85
 toutes,arome,gradient boosting,0.13,1.67,2.29
+toutes,arome,régression linéaire,-0.0,2.78,3.55
 toutes,gfs,biais moyen,-0.0,3.51,4.41
 toutes,gfs,brut,0.5,3.52,4.42
 toutes,gfs,gradient boosting,0.1,1.67,2.29
+toutes,gfs,régression linéaire,-0.01,3.47,4.37
 toutes,moy,biais moyen,-0.0,3.14,3.95
 toutes,moy,brut,-0.13,3.11,3.92
 toutes,moy,gradient boosting,0.11,1.67,2.29
+toutes,moy,régression linéaire,-0.01,2.95,3.72
