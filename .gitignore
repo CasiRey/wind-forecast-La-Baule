@@ -11,3 +11,6 @@ data/raw/
 
 # Fichiers de configuration de Visual Studio (propres à ma machine)
 .vs/
+
+# Mémo personnel des fonctions pandas/numpy/sklearn (aide-mémoire, pas pour le repo)
+MEMO_FONCTIONS.md
